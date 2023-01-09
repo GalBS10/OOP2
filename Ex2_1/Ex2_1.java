@@ -88,7 +88,6 @@ public static int getNumOfLinesThreads(String[] fileNames) {
 
         ExecutorService executor = (ThreadPoolExecutor)Executors.newFixedThreadPool(fileNames.length);
         int ans =0;
-        ArrayList <Future<Integer>> results = new ArrayList<>();
         ArrayList <Thread2> Threads = new ArrayList<>();
         for (int i=0;i<fileNames.length;i++){
             Threads.add(new Thread2(fileNames[i]));

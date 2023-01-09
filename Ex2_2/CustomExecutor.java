@@ -1,45 +1,63 @@
 package Ex2.Ex2_2;
 
-import java.util.Iterator;
-import java.util.PriorityQueue;
+import java.util.ArrayList;
+import java.util.concurrent.*;
 
 public class CustomExecutor {
 
-    private PriorityQueue<Task> ThreadPool;
+    private PriorityBlockingQueue<Runnable> ThreadPool;
+    private ExecutorService executor;
+    private int Max_Priority;
 
-
-    public CustomExecutor() {
-        this.ThreadPool = new PriorityQueue<Task>();
+    //constructor//
+    public CustomExecutor(){
+        ThreadPool = new PriorityBlockingQueue<>();
+        executor = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors()/2
+                ,Runtime.getRuntime().availableProcessors()-1,300,TimeUnit.MILLISECONDS,ThreadPool);
     }
 
-    public boolean add_withPriority(Task t) {//2
-        return this.ThreadPool.add(t);
+    //1//
+    public Future submit(Task task) {
+        if(ThreadPool.size()==Runtime.getRuntime().availableProcessors()-1){//checking if there is more space for new threads.
+            return null;
+        }
+        if(task.getPriority()<Max_Priority){ //Checking if the new thread has higher priority than Max_Priority.
+            Max_Priority = task.getPriority();
+        }
+       return executor.submit(task);
     }
-    public boolean add_withoutPriority(Task t) {//2
-        return this.ThreadPool.add(t);
+    //2//
+    public Future submit(Callable c,TaskType t) {
+        Task task =  Task.createTask(c,t);
+        Future f = submit(task);
+        return f;
     }
-
-    public void remove(Task t) {
-        this.ThreadPool.remove(t);
-
+    //3//
+    public Future submit(Callable c){
+        Task task = Task.createTask(c);
+        Future f = submit(task);
+        return f;
     }
-    public void submit(){
+    //10//
+    public int getCurrentMax(){
+        return Max_Priority;
+    }
+    //11.b//
+    public void executeAll(){
         try {
-            this.ThreadPool.peek().call();
+            for (Runnable r : ThreadPool) {
+                ((Task) r).call();
+            }
         }
         catch(Exception e){
-            System.out.println("There is a problem with submit");
+            System.out.println("There is an error with executeAll");
             e.printStackTrace();
         }
-        this.ThreadPool.poll();
     }
-
-    public void submitAll(){
-        for(Task t: this.ThreadPool){
-            this.submit();
-        }
+    //11.c//
+    public void gracefullyTerminate(){
+       executor.close();// After a thread had finished, the executor removing him from the priorityBlockingQueue
     }
-
 
 
 }

@@ -23,7 +23,6 @@ public class Task<T> implements Callable ,Comparable {
     }
     //default Factory//
     public static Task createTask(Callable func){
-
         return new Task(func);
     }
 
@@ -34,10 +33,10 @@ public class Task<T> implements Callable ,Comparable {
     @Override
     public int compareTo(Object t1){
 
-        if(this.priority> ((Task) t1).priority){
+        if(this.priority< ((Task) t1).priority){
             return 1;
         }
-        else if(this.priority< ((Task) t1).priority){
+        else if(this.priority> ((Task) t1).priority){
             return -1;
         }
         else{
@@ -47,6 +46,4 @@ public class Task<T> implements Callable ,Comparable {
     public int getPriority(){
         return this.priority;
     }
-
-
 }

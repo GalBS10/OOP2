@@ -7,7 +7,6 @@ public class Main {
     public static void main(String[] args){
         String [] arr = Ex2_1.createTextFiles(1000, 50, 100);
 
-       // System.out.println(Arrays.toString(arr));
 
         long start =System.currentTimeMillis();
         System.out.println("q2 answer = "+Ex2_1.getNumOfLines(arr));
