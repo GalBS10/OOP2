@@ -6,7 +6,7 @@ import java.util.Random;
 import java.io.BufferedReader;
 import java.util.concurrent.*;
 
-public class Ex2_1 extends Thread {
+public class Ex2_1 {
     ////////////////Q1/////////////
     public static String[] createTextFiles(int n, int seed, int bound){
         int i;
