@@ -2,6 +2,7 @@ package Ex2.Ex2_2;
 
 import java.util.concurrent.Callable;
 import java.io.*;
+import java.util.concurrent.Future;
 
 public class Task<T> implements Callable ,Comparable {
 

@@ -3,12 +3,15 @@ package Ex2.Ex2_2;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
+
+import java.util.Arrays;
 import java.util.concurrent.*;
 public class Tests {
     public static final Logger logger = LoggerFactory.getLogger(Tests.class);
 
     @Test
-    public void partialTest() {
+    public void partialTest() throws Exception {
+
         CustomExecutor customExecutor = new CustomExecutor();
         var task = Task.createTask(() -> {
             int sum = 0;
@@ -21,7 +24,8 @@ public class Tests {
         final int sum;
         try {
             sum = (int) sumTask.get(1, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+        }
+        catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new RuntimeException(e);
         }
         logger.info(() -> "Sum of 1 through 10 = " + sum);
@@ -34,6 +38,7 @@ public class Tests {
         };
         // var is used to infer the declared type automatically
         var priceTask = customExecutor.submit(() -> {
+
             return 1000 * Math.pow(1.02, 5);
         }, TaskType.COMPUTATIONAL);
         var reverseTask = customExecutor.submit(callable2, TaskType.IO);
@@ -49,6 +54,7 @@ public class Tests {
         logger.info(() -> String.valueOf("Total Price = " + totalPrice));
         logger.info(() -> "Current maximum priority = " +
                 customExecutor.getCurrentMax());
+
         customExecutor.gracefullyTerminate();
 
     }

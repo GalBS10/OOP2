@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 public class Main {
     public static void main(String[] args){
-        String [] arr = Ex2_1.createTextFiles(1000, 50, 100);
+        String [] arr = Ex2_1.createTextFiles(10000, 50, 100);
 
 
         long start =System.currentTimeMillis();
